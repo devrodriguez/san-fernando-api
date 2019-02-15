@@ -20,6 +20,9 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Product::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->sentence(1)        
+        'name' => $faker->sentence(1),
+        'description' => $faker->sentence(6),
+        'price_per_unit' => $faker->randomNumber(4),
+        'picture_url' => $faker->imageUrl(640, 480)      
     ];
 });
