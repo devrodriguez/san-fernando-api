@@ -23,6 +23,6 @@ $factory->define(App\Product::class, function (Faker\Generator $faker) {
         'name' => $faker->sentence(1),
         'description' => $faker->sentence(6),
         'price_per_unit' => $faker->randomNumber(4),
-        'picture_url' => $faker->imageUrl(640, 480)      
+        'picture_url' => $faker->imageUrl(640, 480, 'food')      
     ];
 });
