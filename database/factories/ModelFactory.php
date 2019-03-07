@@ -11,19 +11,33 @@
 |
 */
 
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+use Faker\Generator as Faker;
+
+$factory->define(App\User::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->email,
     ];
 });
 
-$factory->define(App\Product::class, function (Faker\Generator $faker) {
+$factory->define(App\Product::class, function (Faker $faker) {
     return [
         'name' => $faker->sentence(2),
         'code' => $faker->ean13,
         'description' => $faker->sentence(6),
         'price_per_unit' => $faker->randomNumber(5),
         'image_url' => $faker->imageUrl(640, 480, 'food')      
+    ];
+});
+
+$factory->define(App\Dish::class, function(Faker $faker) {
+    return [
+        'name' => $faker->sentence(2)
+    ];
+});
+
+$factory->define(App\Order::class, function(Faker $faker) {
+    return [
+        'price' => $faker->randomNumber(4)
     ];
 });

@@ -17,4 +17,5 @@ $router->get('/', function () use ($router) {
 
 $router->group(['prefix' => 'api'], function($router) {
     $router->get('/products', 'ProductController@index');
+    $router->get('/dishes', 'DishController@index');
 });

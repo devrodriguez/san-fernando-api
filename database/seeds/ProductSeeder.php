@@ -10,7 +10,7 @@ class ProductSeeder extends Seeder
      * @return void
      */
     public function run()
-    {
+    {        
         factory(App\Product::class, 40)->create();
     }   
 }
