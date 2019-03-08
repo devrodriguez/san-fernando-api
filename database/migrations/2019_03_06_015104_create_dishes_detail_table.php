@@ -15,9 +15,13 @@ class CreateDishesDetailTable extends Migration
     {
         Schema::create('dishes_detail', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('dish_id')->unsigned();
-            $table->integer('product_id')->unsigned();
+            $table->unsignedInteger('dish_id');
+            $table->unsignedInteger('product_id');
             $table->timestamps();
+
+            // Foreign keys
+            $table->foreign('dish_id')->references('id')->on('dishes');
+            $table->foreign('product_id')->references('id')->on('products');
         });
     }
 

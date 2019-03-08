@@ -8,7 +8,7 @@ class Dish extends Model
 {
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'dishes_detail', 'product_id', 'dish_id');
+        return $this->belongsToMany(Product::class, 'dishes_detail');
     }
 
     public function orders() {

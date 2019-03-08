@@ -15,9 +15,15 @@ class CreateOrdersDetailsTable extends Migration
     {
         Schema::create('orders_details', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('order_id')->unsigned();
-            $table->integer('product_id')->unsigned();
+            $table->unsignedInteger('order_id');
+            $table->unsignedInteger('dish_id')->nullable();
+            $table->unsignedInteger('product_id')->nullable();
             $table->timestamps();
+
+            // Foreign keys
+            $table->foreign('order_id')->references('id')->on('orders');
+            $table->foreign('dish_id')->references('id')->on('dishes');
+            $table->foreign('product_id')->references('id')->on('products');
         });
     }
 

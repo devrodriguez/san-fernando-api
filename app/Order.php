@@ -6,8 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    public function dishes() 
+    public function dishes()
     {
-        return $this->belongsToMany(Dish::class);
+        return $this->belongsToMany(Dish::class, 'orders_details');
+    }
+
+    public function products() 
+    {
+        return $this->belongsToMany(Product::class, 'orders_details');
     }
 }
