@@ -40,6 +40,14 @@ class DishController extends Controller
         //
     }
 
+    public function showProducts($id)
+    {
+        $dish = Dish::find($id);
+        $products = $dish->products;
+
+        return response()->json($products);
+    }
+
     /**
      * Update the specified resource in storage.
      *

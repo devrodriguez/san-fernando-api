@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Order;
+use App\Dish;
+use App\Product;
 
 class OrderController extends Controller
 {
@@ -24,7 +27,44 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $order = new Order;
+        $productsId = $request->products;
+        $dishesId = $request->dishes;
+        $dishes = Dish::find($dishesId);
+        $products = Product::find($productsId);
+
+        $allProducts = [];
+
+        //Insert order
+        $order->price = $request->price;
+        $order->save();
+
+        
+        foreach($dishes as $dish)
+        {
+            foreach($dish->products as $product)
+            {
+                array_push($allProducts, $product);
+            }
+
+            // Add dishes
+            $order->dishes()->attach($dish->id);
+        }
+
+        foreach($products as $product)
+        {
+            array_push($allProducts, $product);
+            $order->products()->attach($product->id);
+        }
+
+        /*
+        foreach ($allProducts as $product) {
+            // Add products
+            $order->products()->attach($product->id);
+        }
+        */
+        
+        return response()->json($order);
     }
 
     /**
@@ -35,7 +75,23 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        //
+        $order = Order::find($id);
+
+        return response()->json($order);
+    }
+  
+    public function showDishes($id) {
+        $order = Order::find($id);
+        $dishes = $order->dishes;
+
+        return response()->json($dishes);
+    }
+
+    public function showProducts($id) {
+        $dish = Order::find($id);
+        $products = $dish->products;
+
+        return response()->json($products);
     }
 
     /**

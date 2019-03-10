@@ -18,4 +18,10 @@ $router->get('/', function () use ($router) {
 $router->group(['prefix' => 'api'], function($router) {
     $router->get('/products', 'ProductController@index');
     $router->get('/dishes', 'DishController@index');
+    $router->get('/dishes/{id}/products', 'DishController@showProducts');
+    $router->get('/orders/{id}/products', 'OrderController@showProducts');
+
+    $router->get('/orders/{id}', 'OrderController@show');
+    $router->get('/orders/{id}/dishes', 'OrderController@showDishes');
+    $router->post('/orders', 'OrderController@store');
 });
