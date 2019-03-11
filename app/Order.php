@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
+    protected $fillable = ['price'];
+    
     public function dishes()
     {
         return $this->belongsToMany(Dish::class, 'orders_details');

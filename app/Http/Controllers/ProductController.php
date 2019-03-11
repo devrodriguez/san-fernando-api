@@ -27,7 +27,13 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $dataProduct = $request->all();
+        $product = Product::create($dataProduct);
+
+        return response()->json([
+            'product' => $product,
+            'url' => "/api/products/{$product->id}"
+        ]);
     }
 
     /**
@@ -38,7 +44,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        return response()->json(Product::findOrFail($id));
     }
 
     /**
@@ -50,7 +56,11 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        $product = Product::find($id);
+        $product->update($data);
+
+        return response()->json($product, 200);
     }
 
     /**

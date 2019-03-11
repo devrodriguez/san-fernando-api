@@ -56,13 +56,6 @@ class OrderController extends Controller
             array_push($allProducts, $product);
             $order->products()->attach($product->id);
         }
-
-        /*
-        foreach ($allProducts as $product) {
-            // Add products
-            $order->products()->attach($product->id);
-        }
-        */
         
         return response()->json($order);
     }
@@ -103,7 +96,11 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        $order = Order::find($id);
+        $order->update($data);
+
+        return response()->json($order, 200);
     }
 
     /**

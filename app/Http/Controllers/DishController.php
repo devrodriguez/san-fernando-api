@@ -26,7 +26,19 @@ class DishController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $dish = $request->dish;
+        $products = $request->products;
+        $dish = Dish::create($dish);
+
+        // Add products
+        foreach ($products as $product) {
+            $dish->products()->attach($product);
+        }   
+        
+        return response()->json([
+            'dish' => $dish,
+            'url' => "/api/dishes/{$dish->id}"
+        ]);
     }
 
     /**
@@ -37,7 +49,7 @@ class DishController extends Controller
      */
     public function show($id)
     {
-        //
+        return response()->json(Dish::find($id));
     }
 
     public function showProducts($id)
@@ -57,7 +69,11 @@ class DishController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        $dish = Dish::find($id);
+        $dish->update($data);
+        
+        return response()->json($dish, 200);
     }
 
     /**
