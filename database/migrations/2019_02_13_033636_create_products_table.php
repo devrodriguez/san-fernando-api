@@ -13,13 +13,15 @@ class CreateProductsTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('products');
+        
         Schema::create('products', function (Blueprint $table) {
             $table->increments('id');
             $table->string('code')->unique();
             $table->string('name')->unique();
             $table->string('description');
-            $table->decimal('price_per_unit', 8, 2);
-            $table->string('image_url');
+            $table->decimal('price', 8, 2);
+            $table->string('img_url');
             $table->timestamps();
         });
     }
