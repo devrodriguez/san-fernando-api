@@ -84,6 +84,11 @@ class DishController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $dish = Dish::find($id);
+        $dish->delete();
+        return response()->json([
+            'message' => 'Deleted succesfully',
+            'url' => '/api/dishes'
+        ]);
     }
 }

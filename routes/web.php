@@ -27,6 +27,7 @@ $router->group(['prefix' => 'api'], function($router) {
     $router->get('/dishes/{id}/products', 'DishController@showProducts');
     $router->post('/dishes', 'DishController@store');
     $router->put('/dishes/{id}', 'DishController@update');
+    $router->delete('/dishes/{id}', 'DishController@destroy');
 
     $router->get('/orders/{id}', 'OrderController@show');
     $router->get('/orders/{id}/products', 'OrderController@showProducts');
