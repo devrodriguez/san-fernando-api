@@ -25,14 +25,16 @@ $factory->define(App\Product::class, function (Faker $faker) {
         'name' => $faker->sentence(2),
         'code' => $faker->ean13,
         'description' => $faker->sentence(6),
-        'price_per_unit' => $faker->randomNumber(5),
-        'image_url' => $faker->imageUrl(640, 480, 'food')      
+        'price' => $faker->randomNumber(5),
+        'img_url' => $faker->imageUrl(640, 480, 'food')    
     ];
 });
 
 $factory->define(App\Dish::class, function(Faker $faker) {
     return [
-        'name' => $faker->sentence(2)
+        'name' => $faker->sentence(2),
+        'price' => $faker->randomNumber(5),
+        'img_url' => $faker->imageUrl(640, 480, 'food')
     ];
 });
 
