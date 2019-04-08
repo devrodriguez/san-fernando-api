@@ -15,12 +15,15 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
+$router->get('storage/{name}', 'ProductController@image');
+
 $router->group(['prefix' => 'api'], function($router) {
 
     $router->get('/products', 'ProductController@index');
     $router->get('/products/{id}', 'ProductController@show');
     $router->post('/products', 'ProductController@store');
     $router->put('/products/{id}', 'ProductController@update');
+    $router->delete('/products/{id}', 'ProductController@destroy');
 
     $router->get('/dishes', 'DishController@index');
     $router->get('/dishes/{id}', 'DishController@show');

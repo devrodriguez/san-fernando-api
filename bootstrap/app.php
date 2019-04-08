@@ -48,6 +48,16 @@ $app->singleton(
     App\Console\Kernel::class
 );
 
+$app->singleton('filesystem', function($app) {
+    return $app->loadComponent(
+        'filesystems',
+        Illuminate\Filesystem\FilesystemServiceProvider::class,
+        'filesystem'
+    );
+});
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Register Middleware
@@ -101,5 +111,8 @@ $app->router->group([
 
 // Register lumen-generator
 $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
+
+// File Storage
+$app->configure('filesystems');
 
 return $app;
