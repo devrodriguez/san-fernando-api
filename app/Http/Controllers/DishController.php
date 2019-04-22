@@ -24,6 +24,13 @@ class DishController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    /* 
+    {
+        "name": "",
+        "price": 0,
+        "img_url": ""
+    }
+    */
     public function store(Request $request)
     {
         $dish = $request->dish;

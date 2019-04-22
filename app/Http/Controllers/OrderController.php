@@ -16,7 +16,8 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        $orders = Order::all();
+        return response()->json($orders);
     }
 
     /**
@@ -28,36 +29,32 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $order = new Order;
-        $productsId = $request->products;
+        $products = $request->products;
         $dishesId = $request->dishes;
         $dishes = Dish::find($dishesId);
-        $products = Product::find($productsId);
 
         $allProducts = [];
 
         //Insert order
         $order->price = $request->price;
         $order->save();
-
         
         foreach($dishes as $dish)
         {
-            foreach($dish->products as $product)
-            {
-                array_push($allProducts, $product);
-            }
-
             // Add dishes
             $order->dishes()->attach($dish->id);
         }
 
         foreach($products as $product)
-        {
-            array_push($allProducts, $product);
-            $order->products()->attach($product->id);
+        {            
+            // Add products
+            $order->products()->attach($product);
         }
-        
-        return response()->json($order);
+
+        return response()->json([
+            'order' => $order,
+            'url' => "/api/orders/{$order->id}"
+        ]);
     }
 
     /**
