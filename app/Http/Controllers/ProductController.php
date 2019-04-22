@@ -17,9 +17,16 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($image)
     {
         $products = Product::all();
+
+        if ($image) {
+            foreach($products as $product) {
+                $product["data_img"] = ProductController::image64($product->code);
+            }
+        }
+
         return response()->json($products);
     }
 
@@ -118,5 +125,24 @@ class ProductController extends Controller
         }
 
         return response($file, 200)->header("Content-Type", $type);
+    }
+
+    public function image64($name) {
+        $path = storage_path('app/public/'.$name.".png");
+
+        if(File::Exists($path)) {
+            $file = File::get($path);
+        }
+        else 
+        {
+            $path = storage_path('app/public/not-found.jpg');
+            $file = File::get($path);
+        }
+
+        $imgData = file_get_contents($path, true);
+
+        //dump(base64_encode($imgData));
+
+        return base64_encode($imgData);
     }
 }
