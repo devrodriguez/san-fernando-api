@@ -20,7 +20,7 @@ $router->get('storage/64/{name}', 'ProductController@image64');
 
 $router->group(['prefix' => 'api'], function($router) {
 
-    $router->get('/products/image/{image}', 'ProductController@index');
+    $router->get('/products', 'ProductController@index');
     $router->get('/products/{id}', 'ProductController@show');
     $router->post('/products', 'ProductController@store');
     $router->put('/products/{id}', 'ProductController@update');

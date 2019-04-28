@@ -17,11 +17,11 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($image)
+    public function index(Request $request)
     {
         $products = Product::all();
 
-        if ($image) {
+        if ($request->image) {
             foreach($products as $product) {
                 $product["data_img"] = ProductController::image64($product->code);
             }
@@ -38,13 +38,18 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $imageName = $request->code.".png";
         $imageContent = $request->image;
         $dataProduct = $request->all();
+        $maxId = Product::max('id');
+        $id = is_numeric($maxId) ? $maxId : 1;
+        $code = 'SF'.str_pad($id, 4, '0', STR_PAD_LEFT);
+        $imageName = $code.".png";
 
         $dataProduct["img_url"] = $imageName;
+        $dataProduct['code'] = $code;
+
         $product = Product::create($dataProduct);
-        
+      
         if ($product != null) {
             Images::store_image($imageName, 'public', $imageContent);
         }
@@ -63,7 +68,9 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        return response()->json(Product::findOrFail($id));
+        $product = Product::findOrFail($id);
+        $product['data_img'] = ProductController::image64($product->code);
+        return response()->json($product);
     }
 
     /**
@@ -87,7 +94,7 @@ class ProductController extends Controller
 
         $updated = $product->save();
 
-        if ($updated) {
+        if ($updated && $imageEncode != null) {
             Images::store_image($imageName, 'public', $imageEncode);
         }
 
@@ -135,7 +142,7 @@ class ProductController extends Controller
         }
         else 
         {
-            $path = storage_path('app/public/not-found.jpg');
+            $path = storage_path('app/public/not-found.png');
             $file = File::get($path);
         }
 

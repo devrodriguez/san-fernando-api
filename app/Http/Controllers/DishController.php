@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+
 use App\Dish;
 
 class DishController extends Controller
@@ -12,9 +16,16 @@ class DishController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $dishes = Dish::all();
+
+        if ($request->image) {
+            foreach($dishes as $dish) {
+                $dish["data_img"] = DishController::image64($dish->code);
+            }
+        }
+
         return response()->json($dishes);
     }
 
@@ -97,5 +108,24 @@ class DishController extends Controller
             'message' => 'Succesfully Deleted',
             'url' => '/api/dishes'
         ]);
+    }
+
+    public function image64($name) {
+        $path = storage_path('app/public/'.$name.".png");
+
+        if(File::Exists($path)) {
+            $file = File::get($path);
+        }
+        else 
+        {
+            $path = storage_path('app/public/not-found.png');
+            $file = File::get($path);
+        }
+
+        $imgData = file_get_contents($path, true);
+
+        //dump(base64_encode($imgData));
+
+        return base64_encode($imgData);
     }
 }
