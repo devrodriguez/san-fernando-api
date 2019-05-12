@@ -37,6 +37,8 @@ class OrderController extends Controller
 
         //Insert order
         $order->price = $request->price;
+        $order->payment_method = $request->payment_method;
+        $order->carrier = $request->carrier;
         $order->save();
         
         foreach($dishes as $dish)

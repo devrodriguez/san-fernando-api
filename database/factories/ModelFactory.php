@@ -40,6 +40,8 @@ $factory->define(App\Dish::class, function(Faker $faker) {
 
 $factory->define(App\Order::class, function(Faker $faker) {
     return [
-        'price' => $faker->randomNumber(4)
+        'price' => $faker->randomNumber(4),
+        'payment_method' => $faker->randomElement(array('E', 'T', 'D')),
+        'carrier' => $faker->randomElement(array('RP', 'UB'))
     ];
 });
