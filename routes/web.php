@@ -40,4 +40,6 @@ $router->group(['prefix' => 'api'], function($router) {
     $router->post('/orders', 'OrderController@store');
     $router->put('/orders/{id}', 'OrderController@update');
 
+    $router->get('/inventory', 'InventoryController@index');
+
 });

@@ -21,6 +21,7 @@ class CreateProductsTable extends Migration
             $table->string('name')->unique();
             $table->string('description');
             $table->decimal('price', 8, 2);
+            $table->integer('measure_unit')->nullable();
             $table->string('img_url');
             $table->timestamps();
         });
