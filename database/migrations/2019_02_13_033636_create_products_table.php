@@ -23,6 +23,7 @@ class CreateProductsTable extends Migration
             $table->decimal('price', 8, 2);
             $table->integer('measure_unit')->nullable();
             $table->string('img_url');
+            $table->integer('recharge_amount')->nullable();
             $table->timestamps();
         });
     }

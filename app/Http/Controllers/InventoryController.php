@@ -16,7 +16,11 @@ class InventoryController extends Controller
      */
     public function index()
     {
-        $inventory = DB::table('products')->join('inventories', 'products.id', '=', 'inventories.product_id')->get();
+        $inventory = DB::table('inventories_detail')
+        ->join('products', 'inventories_detail.product_id', '=', 'products.id')
+        ->join('inventories', 'inventories_detail.inventory_id', '=', 'inventories.id')
+        ->get();
+        
         return response()->json($inventory);
     }
 
@@ -29,11 +33,19 @@ class InventoryController extends Controller
     public function store(Request $request)
     {
         $inventory = new Inventory;
-        $inventory->last_amount = $request->last_amount;
-        $inventory->available_amount = $request->available_amount;
-        $inventory->product_id = $request->product_id;
-
         $inventory->save();
+        
+        //dd($request->all());
+
+        foreach($request->all() as $input)
+        {
+            //dd($input['available_amount']);
+
+            $inventory->products()->attach($input['product_id'], [
+                'inventory_id' => $inventory->id,
+                'available_amount' => $input['available_amount']
+            ]);
+        }
 
         return response()->json([
             'message' => 'Inventory stored'

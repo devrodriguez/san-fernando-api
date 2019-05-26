@@ -42,5 +42,6 @@ $router->group(['prefix' => 'api'], function($router) {
 
     $router->get('/inventory', 'InventoryController@index');
     $router->get('/inventory/{date}', 'InventoryController@show');
+    $router->post('/inventory', 'InventoryController@store');
 
 });

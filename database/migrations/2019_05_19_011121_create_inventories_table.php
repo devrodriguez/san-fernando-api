@@ -15,14 +15,7 @@ class CreateInventoriesTable extends Migration
     {
         Schema::create('inventories', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('last_amount')->nullable();
-            $table->integer('available_amount');
-            $table->integer('recharge_amount');
-            $table->unsignedInteger('product_id');
             $table->timestamps();
-
-            //Foreign keys
-            $table->foreign('product_id')->references('id')->on('products');
         });
     }
 
