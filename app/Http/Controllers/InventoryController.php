@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use App\Inventory;
+use App\Product;
 
 class InventoryController extends Controller
 {
@@ -16,12 +17,14 @@ class InventoryController extends Controller
      */
     public function index()
     {
-        $inventory = DB::table('inventories_detail')
+        /*
+        $stock = DB::table('inventories_detail')
         ->join('products', 'inventories_detail.product_id', '=', 'products.id')
         ->join('inventories', 'inventories_detail.inventory_id', '=', 'inventories.id')
         ->get();
-        
-        return response()->json($inventory);
+        */
+        $stock = Product::all();
+        return response()->json($stock);
     }
 
     /**
@@ -34,14 +37,10 @@ class InventoryController extends Controller
     {
         $inventory = new Inventory;
         $inventory->save();
-        
-        //dd($request->all());
 
         foreach($request->all() as $input)
         {
-            //dd($input['available_amount']);
-
-            $inventory->products()->attach($input['product_id'], [
+            $inventory->products()->attach($input['id'], [
                 'inventory_id' => $inventory->id,
                 'available_amount' => $input['available_amount']
             ]);
@@ -86,5 +85,34 @@ class InventoryController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function approve() {
+        $inventory = DB::table('inventories_detail')
+        ->join('products', 'inventories_detail.product_id', '=', 'products.id')
+        ->where('inventory_id', DB::raw("(select max(inventory_id) from inventories_detail where date_format(created_at, '%M/d%/%Y') = date_format(now(), '%M/d%/%Y'))"))
+        ->select(['inventories_detail.inventory_id', 'products.id as product_id', 'inventories_detail.available_amount'])
+        ->get();
+
+        foreach($inventory as $item) 
+        {
+            $product = Product::find($item->product_id);
+            $product->available_amount = $item->available_amount;
+            $product->save();
+        }
+
+        return response()->json([
+            'message' => 'Updated'
+        ]);
+    }
+
+    public function last() {
+        $inventory = DB::table('inventories_detail')
+        ->join('products', 'inventories_detail.product_id', '=', 'products.id')
+        ->where('inventory_id', DB::raw("(select max(inventory_id) from inventories_detail where date_format(created_at, '%M/d%/%Y') = date_format(now(), '%M/d%/%Y'))"))
+        ->select(['inventories_detail.inventory_id', 'products.id as product_id', 'inventories_detail.available_amount'])
+        ->get();
+
+        return response()->json($inventory);
     }
 }

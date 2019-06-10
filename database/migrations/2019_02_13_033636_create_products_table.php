@@ -24,6 +24,7 @@ class CreateProductsTable extends Migration
             $table->integer('measure_unit')->nullable();
             $table->string('img_url');
             $table->integer('recharge_amount')->nullable();
+            $table->integer('available_amount')->nullable();
             $table->timestamps();
         });
     }

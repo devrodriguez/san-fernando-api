@@ -26,7 +26,8 @@ $factory->define(App\Product::class, function (Faker $faker) {
         'code' => $faker->ean13,
         'description' => $faker->sentence(6),
         'price' => $faker->randomNumber(5),
-        'img_url' => $faker->imageUrl(640, 480, 'food')    
+        'img_url' => $faker->imageUrl(640, 480, 'food'),
+        'available_amount' => 1
     ];
 });
 
